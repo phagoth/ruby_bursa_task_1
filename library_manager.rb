@@ -96,9 +96,16 @@ class LibraryManager
   # Возвращаемое значение 
   # - Пеня в центах или 0 при условии что читатель укладывается в срок здачи.
   def penalty_to_finish price, issue_datetime, pages_quantity, current_page, reading_speed
-    # решение пишем тут
-
-
+    timeToRead = ((pages_quantity - current_page) / reading_speed)/24.0
+    endReading = DateTime.now + timeToRead
+    res = if endReading > issue_datetime
+      penaltyIndex = 0.1 / 100
+      penaltyHours = ((endReading - issue_datetime).to_f * 24).round
+      penaltyHours * price * penaltyIndex
+    else
+      0
+    end
+    return res.round
   end
 
 end
