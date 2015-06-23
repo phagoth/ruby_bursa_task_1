@@ -37,7 +37,7 @@ class LibraryManager
   def could_meet_each_other? year_of_birth_first, year_of_death_first, year_of_birth_second, year_of_death_second
     lifeOfFirst = (year_of_birth_first..year_of_death_first)
     lifeOfSecond = (year_of_birth_second..year_of_death_second)
-    res = lifeOfFirst.member?(year_of_birth_second) or lifeOfFirst.member?(year_of_death_second) or lifeOfSecond.member?(year_of_birth_first) or lifeOfSecond.member?(year_of_death_first)
+    return (lifeOfFirst.member?(year_of_birth_second) or lifeOfFirst.member?(year_of_death_second) or lifeOfSecond.member?(year_of_birth_first) or lifeOfSecond.member?(year_of_death_first))
   end
 
   # 3. Исходя из жесткой системы штрафов за опоздания со cдачей книг, читатели начали задумываться - а 
@@ -49,11 +49,11 @@ class LibraryManager
   # Возвращаемое значение 
   # - число полных дней, нак которые необходимо опоздать со здачей, чтобы пеня была равна стоимости книги.
   def days_to_buy price
-    # решение пишем тут
-
-
-
-
+    #Для данного метода абсолютно не важна стоимость книги. Как ни крути а полная стоимость книги набегает
+    #за 1000 часов что примерно равно 42 дням
+    penaltyIndex = 0.1 / 100
+    penaltyHours = price / (price * penaltyIndex)
+    return (penaltyHours / 24).round
   end
 
 
@@ -66,10 +66,21 @@ class LibraryManager
   # Возвращаемое значение 
   # - имя и фамилия автора транслитом. ("Ivan Franko")
   def author_translit ukr_name
-    # решение пишем тут
-
-
-
+    translit = ukr_name
+    ukrLetters = ['А', 'а', 'Б', 'б', 'В', 'в', 'Г', 'г', 'Ґ', 'ґ', 'Д', 'д', 'Е', 'е',
+                  'Є', 'є', 'Ж', 'ж', 'З', 'з', 'И', 'и', 'І', 'і', 'Ї', 'ї', 'Й', 'й',
+                  'К', 'к', 'Л', 'л', 'М', 'м', 'Н', 'н', 'О', 'о', 'П', 'п', 'Р', 'р',
+                  'С', 'с', 'Т', 'т', 'У', 'у', 'Ф', 'ф', 'Х', 'х', 'Ц', 'ц',
+                  'Ч', 'ч', 'Ш', 'ш', 'Щ', 'щ', 'Ь', 'ь', 'Ю', 'ю', 'Я', 'я']
+    engLetters = ['A', 'a', 'B', 'b', 'V', 'v', 'H', 'h', 'G', 'g', 'D', 'd', 'E', 'e',
+                  'Ye', 'ie', 'Zh', 'zh', 'Z', 'z', 'Y', 'y', 'I', 'i', 'Yi', 'i', 'Y', 'i',
+                  'K', 'k', 'L', 'l', 'M', 'm', 'N', 'n', 'O', 'o', 'P', 'p', 'R', 'r',
+                  'S', 's', 'T', 't', 'U', 'u', 'F', 'f', 'Kh', 'kh', 'Ts', 'ts',
+                  'Ch', 'ch', 'Sh', 'sh', 'Shch', 'shch', '', '', 'Yu', 'iu', 'Ya', 'ia']
+    for i in 0..ukrLetters.length-1
+      translit = translit.gsub(ukrLetters[i], engLetters[i])
+    end
+    return translit
   end
 
   #5. Читатели любят дочитывать книги во что-бы то ни стало. Необходимо помочь им просчитать сумму штрафа, 
