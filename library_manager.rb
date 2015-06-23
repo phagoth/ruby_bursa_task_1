@@ -36,7 +36,8 @@ class LibraryManager
   # - true или false
   def could_meet_each_other? year_of_birth_first, year_of_death_first, year_of_birth_second, year_of_death_second
     lifeOfFirst = (year_of_birth_first..year_of_death_first)
-    res = if lifeOfFirst.member?(year_of_birth_second) or lifeOfFirst.member?(year_of_death_second)
+    lifeOfSecond = (year_of_birth_second..year_of_death_second)
+    res = if lifeOfFirst.member?(year_of_birth_second) or lifeOfFirst.member?(year_of_death_second) or lifeOfSecond.member?(year_of_birth_first) or lifeOfSecond.member?(year_of_death_first)
       true
     else
       false
