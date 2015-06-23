@@ -1,3 +1,4 @@
+require 'active_support/all';
 class LibraryManager
 
   # 1. Бибилиотека в один момент решила ввести жесткую систему штрафов (прямо как на rubybursa :D).
@@ -12,10 +13,13 @@ class LibraryManager
   # Возвращаемое значение 
   # - пеня в центах
   def penalty price, issue_datetime
-    # решение пишем тут
-
-
-
+    penaltyHours = ((DateTime.now - issue_datetime).to_f * 24).round
+    res = if penaltyHours > 0
+            penaltyHours * price * 0.001
+          else
+            0
+          end
+    return res.round
   end
 
   # 2. Известны годы жизни двух писателей. Год рождения, год смерти. Посчитать, могли ли они чисто 
@@ -31,10 +35,12 @@ class LibraryManager
   # Возвращаемое значение 
   # - true или false
   def could_meet_each_other? year_of_birth_first, year_of_death_first, year_of_birth_second, year_of_death_second
-    # решение пишем тут
-
-
-
+    lifeOfFirst = (year_of_birth_first..year_of_death_first)
+    res = if lifeOfFirst.member?(year_of_birth_second) or lifeOfFirst.member?(year_of_death_second)
+      true
+    else
+      false
+    end
   end
 
   # 3. Исходя из жесткой системы штрафов за опоздания со cдачей книг, читатели начали задумываться - а 
